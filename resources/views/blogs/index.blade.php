@@ -91,11 +91,9 @@
                                     </div>
                                 @endforeach
                             </tbody>
+                            
                         </table>
-
-                        <div class="d-flex justify-content-center">
-                            {{ $blogPosts->links() }}
-                        </div>
+                        {{ $blogPosts->links() }}
                     </div>
                 </div>
             </div>
