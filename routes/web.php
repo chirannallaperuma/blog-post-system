@@ -26,5 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/', [\App\Http\Controllers\Frontend\BlogsController::class, 'index'])->name('blogs.list');
         Route::get('/create', [\App\Http\Controllers\Frontend\BlogsController::class, 'create'])->name('blogs.create');
         Route::post('', [\App\Http\Controllers\Frontend\BlogsController::class, 'store'])->name('blogs.store');
+        Route::put('/{id}', [\App\Http\Controllers\Frontend\BlogsController::class, 'update'])->name('blogs.update');
+        Route::post('/{id}', [\App\Http\Controllers\Frontend\BlogsController::class, 'delete'])->name('blogs.delete');
     });
 });
