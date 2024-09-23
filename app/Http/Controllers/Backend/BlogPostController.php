@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ApiHelper;
 use App\Repositories\Contracts\BlogPostRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class BlogPostController extends Controller
@@ -30,6 +31,8 @@ class BlogPostController extends Controller
 
             return $this->apiSuccess($blogPosts);
         } catch (Throwable $th) {
+            Log::error("BlogPostController (blogPostsList) : error fetching blog post list'  | Reason - {$th->getMessage()}" . PHP_EOL . $th->getTraceAsString());
+
             return $this->apiError("something went wrong");
         }
     }
@@ -47,6 +50,8 @@ class BlogPostController extends Controller
 
             return $this->apiSuccess($blogPost);
         } catch (Throwable $th) {
+            Log::error("BlogPostController (fetchPost) : error fetching blog post'  | Reason - {$th->getMessage()}" . PHP_EOL . $th->getTraceAsString());
+
             return $this->apiError("something went wrong");
         }
     }

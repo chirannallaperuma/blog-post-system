@@ -7,6 +7,7 @@ use App\Repositories\Contracts\BlogPostRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class BlogsController extends Controller
@@ -74,15 +75,20 @@ class BlogsController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $user = Auth::user();
+
         try {
-            $user = Auth::user();
 
             $input['user_id'] = $user->id;
 
             $this->blogPostRepository->create($input);
 
+            Log::info("BlogsController (store) : Successfully created : user - {$user->id}");
+
             return redirect()->back()->with('alert', 'Successfully created');
         } catch (Exception $e) {
+            Log::error("BlogsController (store) : error creating blog' , user - {$user->id}  | Reason - {$e->getMessage()}" . PHP_EOL . $e->getTraceAsString());
+
             return redirect()->back()->with('error', 'An error occurred while creating the blog post. Please try again.');
         }
     }
@@ -108,14 +114,20 @@ class BlogsController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $user = Auth::user();
+
         try {
             $this->blogPostRepository->update($id, [
                 'title' => $request->title,
                 'description' => $request->description
             ]);
 
+            Log::info("BlogsController (update) : Successfully updated : user - {$user->id}");
+
             return redirect()->back()->with('alert', 'Successfully updated');
         } catch (Exception $e) {
+            Log::error("BlogsController (update) : error updating blog' , user - {$user->id}  | Reason - {$e->getMessage()}" . PHP_EOL . $e->getTraceAsString());
+
             return redirect()->back()->with('error', 'An error occurred while updating the blog post. Please try again.');
         }
     }
@@ -128,6 +140,8 @@ class BlogsController extends Controller
      */
     public function delete($id)
     {
+        $user = Auth::user();
+
         try {
             $blogPost = $this->blogPostRepository->find($id);
 
@@ -137,8 +151,12 @@ class BlogsController extends Controller
 
             $blogPost->delete();
 
+            Log::info("BlogsController (delete) : Successfully deleted : user - {$user->id}");
+
             return response()->json(['success' => true, 'message' => 'Successfully deleted']);
         } catch (Exception $e) {
+            Log::error("BlogsController (delete) : error deleting blog' , user - {$user->id}  | Reason - {$e->getMessage()}" . PHP_EOL . $e->getTraceAsString());
+
             return response()->json(['success' => false, 'message' => 'An error occurred while deleting the blog post. Please try again.'], 500);
         }
     }
