@@ -20,3 +20,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::prefix('blogs')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Frontend\BlogsController::class, 'index'])->name('blogs.list');
+        Route::get('/create', [\App\Http\Controllers\Frontend\BlogsController::class, 'create'])->name('blogs.create');
+        Route::post('', [\App\Http\Controllers\Frontend\BlogsController::class, 'store'])->name('blogs.store');
+    });
+});
