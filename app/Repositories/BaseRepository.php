@@ -67,19 +67,6 @@ class BaseRepository
     }
 
     /**
-     * updateOrCreateLaravel
-     *
-     * @param  mixed $attributes
-     * @param  mixed $values
-     * @return void
-     */
-    public function updateOrCreateLaravel(array $attributes, array $values = array())
-    {
-        //return;
-        return $this->model->updateOrCreate($attributes, $values);
-    }
-
-    /**
      * findAllPaginated
      *
      * @param  mixed $relations

@@ -17,4 +17,14 @@ class BlogPostModel extends Model
         'description',
         'user_id'
     ];
+    
+    /**
+     * user
+     *
+     * @return void
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name', 'email');
+    }
 }
